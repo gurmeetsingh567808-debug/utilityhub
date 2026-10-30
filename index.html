@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0b1020">
+<title>UtilityHub</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--bg:#0b1020;--panel:#131b30;--panel2:#19243d;--text:#f4f7ff;--muted:#9aa8c2;--line:#263451;--accent:#8b7cff;--accent2:#36c8e8;--good:#55d6a2}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 90% 0%,#25204e 0,transparent 32%),var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+.app{max-width:760px;margin:auto;padding:18px 16px 38px}.top{display:flex;align-items:center;justify-content:space-between;margin:8px 0 22px}.brand{display:flex;gap:11px;align-items:center}.logo{width:43px;height:43px;border-radius:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-size:22px;box-shadow:0 8px 25px #7668ff44}.brand b{font-size:18px;letter-spacing:.2px}.brand small{display:block;color:var(--muted);font-size:11px}.iconbtn,.tab{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:13px;padding:10px 12px}
+.hero{padding:22px;border:1px solid #393765;border-radius:23px;background:linear-gradient(120deg,#25234b,#152b43);margin-bottom:22px;position:relative;overflow:hidden}.hero:after{content:"Рюд";position:absolute;right:20px;top:10px;font-size:80px;color:#ffffff12}.eyebrow{color:#b9b2ff;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}.hero h1{font-size:26px;line-height:1.15;margin:8px 0}.hero p{color:#c1cbe0;margin:0;max-width:280px;font-size:13px}
+.search{width:100%;padding:14px 15px;border-radius:15px;border:1px solid var(--line);background:#111a2d;color:var(--text);outline:none;margin:0 0 18px;font-size:14px}.search:focus,input:focus,textarea:focus,select:focus{border-color:var(--accent)!important;outline:none}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 12px}.sectionhead h2{font-size:16px;margin:0}.sectionhead span{font-size:11px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.tool{border:1px solid var(--line);background:linear-gradient(145deg,var(--panel),#10182a);padding:15px;border-radius:18px;text-align:left;color:var(--text);min-height:116px;cursor:pointer}.tool:active,.tab:active{transform:scale(.98)}.tool .emoji{width:38px;height:38px;border-radius:12px;background:var(--panel2);display:grid;place-items:center;font-size:20px;margin-bottom:10px}.tool b{display:block;font-size:13px}.tool small{color:var(--muted);font-size:11px}
+.panel{display:none;border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:17px;margin-top:15px}.panel.active{display:block}.panel h2{font-size:18px;margin:0 0 14px}.field{margin:12px 0}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:#0d1527;color:var(--text);font:inherit}.field textarea{min-height:90px;resize:vertical}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.btn{border:0;border-radius:12px;padding:11px 14px;background:linear-gradient(120deg,var(--accent),#5d8dff);color:white;font-weight:700;cursor:pointer}.btn.secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text)}.result{margin-top:12px;padding:13px;border-radius:12px;background:#0c1527;border:1px solid var(--line);overflow-wrap:anywhere;white-space:pre-wrap}.muted{color:var(--muted);font-size:12px}.back{margin-bottom:12px}.bottom{display:flex;gap:8px;justify-content:center;margin-top:24px;color:var(--muted);font-size:11px}.hide{display:none!important}
+@media(min-width:560px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.app{padding:25px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><div class="logo">Рюд</div><div><b>UtilityHub</b><small>Everyday tools, one place</small></div></div>
+    <button class="iconbtn" id="themeBtn" aria-label="Toggle theme">Рў╝</button>
+  </header>
+  <main id="home">
+    <section class="hero"><div class="eyebrow">Your smart toolkit</div><h1>Make everyday tasks<br>feel effortless.</h1><p>Simple, fast and useful tools Рђћ right inside Telegram.</p></section>
+    <input id="search" class="search" placeholder="РїЋ  Search tools..." autocomplete="off">
+    <div class="sectionhead"><h2>Explore tools</h2><span id="toolCount">8 tools</span></div>
+    <div class="grid" id="tools">
+      <button class="tool" data-tool="calculator"><div class="emoji">­ЪД«</div><b>Calculator</b><small>Quick calculations</small></button>
+      <button class="tool" data-tool="qr"><div class="emoji">Рќд</div><b>QR Generator</b><small>Create a QR code</small></button>
+      <button class="tool" data-tool="units"><div class="emoji">­ЪЊљ</div><b>Unit Converter</b><small>Length, weight, temperature</small></button>
+      <button class="tool" data-tool="text"><div class="emoji">РюЇ№ИЈ</div><b>Text Analyzer</b><small>Words and characters</small></button>
+      <button class="tool" data-tool="case"><div class="emoji">Aa</div><b>Case Converter</b><small>Change text case</small></button>
+      <button class="tool" data-tool="percent"><div class="emoji">№╝Ё</div><b>Percentage</b><small>Calculate percentages</small></button>
+      <button class="tool" data-tool="color"><div class="emoji">­Ъје</div><b>Color Converter</b><small>HEX and RGB</small></button>
+      <button class="tool" data-tool="number"><div class="emoji">­Ъћб</div><b>Number Base</b><small>Binary and hexadecimal</small></button>
+    </div>
+  </main>
+  <section id="panel" class="panel">
+    <button class="tab back" id="back">Рєљ All tools</button>
+    <div id="toolContent"></div>
+  </section>
+  <footer class="bottom">UTILITYHUB <span>Рђб</span> Made for Telegram</footer>
+</div>
+<script>
+const tg=window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();tg.setHeaderColor?.('#0b1020');tg.setBackgroundColor?.('#0b1020');}
+const $=s=>document.querySelector(s);
+const content=$('#toolContent'), panel=$('#panel'), home=$('#home');
+const templates={
+calculator:`<h2>­ЪД« Calculator</h2><div class="field"><label>Expression</label><input id="expr" placeholder="Example: (25 + 5) * 2"></div><button class="btn" onclick="calculate()">Calculate</button><div class="result" id="calcResult">Your result will appear here.</div><p class="muted">Supports basic arithmetic, brackets and decimals.</p>`,
+qr:`<h2>Рќд QR Generator</h2><div class="field"><label>Text or URL</label><textarea id="qrText" placeholder="Enter text or a website URL"></textarea></div><button class="btn" onclick="makeQR()">Generate QR</button><div class="result" id="qrResult">Your QR code will appear here.</div>`,
+units:`<h2>­ЪЊљ Unit Converter</h2><div class="field"><label>Category</label><select id="unitType" onchange="unitOptions()"><option value="length">Length</option><option value="weight">Weight</option><option value="temp">Temperature</option></select></div><div class="field"><label>Value</label><input id="unitValue" type="number" value="1"></div><div class="field"><label>From</label><select id="unitFrom"></select></div><div class="field"><label>To</label><select id="unitTo"></select></div><button class="btn" onclick="convertUnit()">Convert</button><div class="result" id="unitResult">Converted value will appear here.</div>`,
+text:`<h2>РюЇ№ИЈ Text Analyzer</h2><div class="field"><label>Your text</label><textarea id="textInput" placeholder="Paste or type your text..." oninput="analyzeText()"></textarea></div><div class="result" id="textResult">Characters: 0\nWords: 0\nSentences: 0\nLines: 0</div>`,
+case:`<h2>Aa Case Converter</h2><div class="field"><label>Your text</label><textarea id="caseInput" placeholder="Enter text to convert"></textarea></div><div class="actions"><button class="btn" onclick="changeCase('upper')">UPPERCASE</button><button class="btn secondary" onclick="changeCase('lower')">lowercase</button><button class="btn secondary" onclick="changeCase('title')">Title Case</button><button class="btn secondary" onclick="changeCase('sentence')">Sentence case</button></div><div class="result" id="caseResult">Converted text appears here.</div><button class="btn secondary" onclick="copyText('caseResult')">Copy result</button>`,
+percent:`<h2>№╝Ё Percentage Calculator</h2><div class="field"><label>What is X% of Y?</label><input id="pctX" type="number" placeholder="Percentage (X)"></div><div class="field"><label>Number (Y)</label><input id="pctY" type="number" placeholder="Number (Y)"></div><button class="btn" onclick="percentage()">Calculate</button><div class="result" id="pctResult">Result will appear here.</div>`,
+color:`<h2>­Ъје Color Converter</h2><div class="field"><label>HEX color</label><input id="hex" value="#8B7CFF" placeholder="#8B7CFF"></div><button class="btn" onclick="convertColor()">Convert</button><div class="result" id="colorResult">RGB values will appear here.</div>`,
+number:`<h2>­Ъћб Number Base Converter</h2><div class="field"><label>Decimal number</label><input id="decimal" type="number" placeholder="Enter a whole number"></div><button class="btn" onclick="numberBase()">Convert</button><div class="result" id="numberResult">Binary and hexadecimal results will appear here.</div>`
+};
+function openTool(name){content.innerHTML=templates[name];home.classList.add('hide');panel.classList.add('active');if(name==='units')unitOptions();if(tg?.BackButton){tg.BackButton.show();tg.BackButton.onClick(closeTool)}}
+function closeTool(){panel.classList.remove('active');home.classList.remove('hide');if(tg?.BackButton)tg.BackButton.hide()}
+document.querySelectorAll('[data-tool]').forEach(b=>b.addEventListener('click',()=>openTool(b.dataset.tool)));
+$('#back').addEventListener('click',closeTool);
+$('#search').addEventListener('input',e=>{let q=e.target.value.toLowerCase(),n=0;document.querySelectorAll('.tool').forEach(b=>{let show=b.innerText.toLowerCase().includes(q);b.classList.toggle('hide',!show);if(show)n++});$('#toolCount').textContent=n+' tools'});
+function calculate(){let s=$('#expr').value.trim();if(!/^[0-9+\-*/().%\s]+$/.test(s)){return $('#calcResult').textContent='Please enter a valid arithmetic expression.'}try{let v=Function('"use strict";return ('+s+')')();$('#calcResult').textContent=Number.isFinite(v)?String(v):'Invalid calculation'}catch{$('#calcResult').textContent='Could not calculate this expression.'}}
+function makeQR(){let t=$('#qrText').value.trim(),r=$('#qrResult');r.innerHTML='';if(!t){r.textContent='Enter text or a URL first.';return}if(typeof QRCode==='undefined'){r.textContent='QR library could not load. Check your internet connection.';return}let holder=document.createElement('div');holder.style.cssText='background:white;padding:12px;display:inline-block;border-radius:10px';r.append(holder);new QRCode(holder,{text:t,width:190,height:190,correctLevel:QRCode.CorrectLevel.M});}
+const unitData={length:{Meter:1,Kilometer:1000,Centimeter:.01,Millimeter:.001,Mile:1609.344,Foot:.3048,Inch:.0254},weight:{Kilogram:1,Gram:.001,Milligram:.000001,Pound:.45359237,Ounce:.0283495},temp:{Celsius:'c',Fahrenheit:'f',Kelvin:'k'}};
+function unitOptions(){let d=unitData[$('#unitType').value],opts=Object.keys(d).map(x=>`<option>${x}</option>`).join('');$('#unitFrom').innerHTML=opts;$('#unitTo').innerHTML=opts;$('#unitTo').selectedIndex=1}
+function convertUnit(){let type=$('#unitType').value,v=Number($('#unitValue').value),a=$('#unitFrom').value,b=$('#unitTo').value;if(!Number.isFinite(v))return $('#unitResult').textContent='Enter a valid number.';let out;if(type==='temp'){let c=a==='Celsius'?v:a==='Fahrenheit'?(v-32)*5/9:v-273.15;out=b==='Celsius'?c:b==='Fahrenheit'?c*9/5+32:c+273.15}else out=v*unitData[type][a]/unitData[type][b];$('#unitResult').textContent=`${v} ${a} = ${Number(out.toFixed(8))} ${b}`}
+function analyzeText(){let t=$('#textInput').value;$('#textResult').textContent=`Characters: ${t.length}\nCharacters (no spaces): ${t.replace(/\s/g,'').length}\nWords: ${(t.trim().match(/\S+/g)||[]).length}\nSentences: ${(t.match(/[.!?]+(?=\s|$)/g)||[]).length}\nLines: ${t? t.split(/\r\n|\r|\n/).length:0}`}
+function changeCase(type){let t=$('#caseInput').value,o=t;if(type==='upper')o=t.toUpperCase();if(type==='lower')o=t.toLowerCase();if(type==='title')o=t.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());if(type==='sentence')o=t.toLowerCase().replace(/(^\s*\w|[.!?]\s+\w)/g,c=>c.toUpperCase());$('#caseResult').textContent=o}
+function percentage(){let x=Number($('#pctX').value),y=Number($('#pctY').value);$('#pctResult').textContent=`${x}% of ${y} = ${(x/100*y).toLocaleString(undefined,{maximumFractionDigits:8})}`}
+function convertColor(){let h=$('#hex').value.trim().replace('#','');if(!/^[0-9a-fA-F]{3}$|^[0-9a-fA-F]{6}$/.test(h))return $('#colorResult').textContent='Enter a valid 3- or 6-digit HEX color.';if(h.length===3)h=h.split('').map(c=>c+c).join('');let n=parseInt(h,16),r=n>>16,g=(n>>8)&255,b=n&255;$('#colorResult').innerHTML=`RGB: ${r}, ${g}, ${b}<br>HEX: #${h.toUpperCase()}<br><span style="display:inline-block;width:45px;height:25px;border-radius:6px;background:#${h};vertical-align:middle"></span>`}
+function numberBase(){let v=Number($('#decimal').value);if(!Number.isSafeInteger(v))return $('#numberResult').textContent='Enter a valid whole number within the safe integer range.';$('#numberResult').textContent=`Binary: ${v.toString(2)}\nHexadecimal: ${v.toString(16).toUpperCase()}\nOctal: ${v.toString(8)}`}
+function copyText(id){let t=$('#'+id).textContent;navigator.clipboard?.writeText(t).then(()=>tg?.HapticFeedback?.notificationOccurred('success')).catch(()=>{});}
+let light=false;$('#themeBtn').addEventListener('click',()=>{light=!light;document.documentElement.style.setProperty('--bg',light?'#f2f5fc':'#0b1020');document.documentElement.style.setProperty('--panel',light?'#ffffff':'#131b30');document.documentElement.style.setProperty('--panel2',light?'#e8edfa':'#19243d');document.documentElement.style.setProperty('--text',light?'#172039':'#f4f7ff');document.documentElement.style.setProperty('--muted',light?'#64708a':'#9aa8c2');document.documentElement.style.setProperty('--line',light?'#d8dfed':'#263451');});
+</script>
+</body></html>
